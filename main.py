@@ -8,4 +8,4 @@ results: list = svm_polynomial.predict(data)
 
 for result in results:
     print(result.get_accuracy())
-    result.plot_confusion_map()
+    result.plot_confusion_matrix()

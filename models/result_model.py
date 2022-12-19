@@ -27,7 +27,8 @@ class ResultModel:
     def get_confusion_matrix(self) -> np.ndarray:
         return confusion_matrix(self.y_test, self.y_predict)
 
-    def plot_confusion_map(self):
+    def plot_confusion_matrix(self):
         seaborn.heatmap(self.get_confusion_matrix(), annot=True, ax=plt.gca())
-        plt.gca().set_title(f"Confusion matrix for {self.title}\naccuracy: {self.get_accuracy()}")
+        plt.gca().set_title(f"Confusion matrix for {self.title}\nmean accuracy: {self.get_accuracy()}")
+        plt.savefig(f"confusion_matrices/{self.title}.png")
         plt.show()
