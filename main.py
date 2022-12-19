@@ -1,10 +1,10 @@
 import pandas
 
-import classifiers.svm_linear as svm_linear
+import classifiers.svm_polynomial as svm_polynomial
 import data.dataset as dataset
 
 data: pandas.DataFrame = dataset.get_data()
-results: list = svm_linear.predict(data)
+results: list = svm_polynomial.predict(data)
 
 for result in results:
     print(result.get_accuracy())
