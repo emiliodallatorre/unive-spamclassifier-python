@@ -13,17 +13,17 @@ def predict(data: pandas.DataFrame) -> list:
     y = data["spam"]
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
-    c: list = [1.0, 10.0, 100.0]
+    regularization: list = [1.0, 10.0, 100.0]
 
     results: list = []
-    for i in range(len(c)):
-        svcclassifier = SVC(kernel='linear', C=c[i])
+    for c in regularization:
+        classifier = SVC(kernel='linear', C=c)
 
-        result, time = chrono_function(svcclassifier.fit, x_train, y_train)
+        result, time = chrono_function(classifier.fit, x_train, y_train)
 
-        y_predict = svcclassifier.predict(x_test)
-        score: np.ndarray = cross_val_score(svcclassifier, x, y, cv=5)
+        y_predict = classifier.predict(x_test)
+        score: np.ndarray = cross_val_score(classifier, x, y, cv=5)
 
-        results.append(ResultModel(y_test, y_predict, f"SVM Linear C={c[i]}", time, score))
+        results.append(ResultModel(y_test, y_predict, f"SVM Linear C={c}", time, score))
 
     return results

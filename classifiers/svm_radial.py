@@ -13,11 +13,11 @@ def predict(data: pandas.DataFrame) -> list:
     y = data["spam"]
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
-    regularization: list = [1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0]
+    regularization: list = [1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0]
 
     results: list = []
     for c in regularization:
-        classifier = SVC(kernel='poly', C=c)
+        classifier = SVC(kernel='rbf', C=c, gamma='auto')
 
         result, time = chrono_function(classifier.fit, x_train, y_train)
 
