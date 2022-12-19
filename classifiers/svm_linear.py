@@ -6,6 +6,8 @@ from sklearn.svm import SVC
 
 from models.result_model import ResultModel
 from utils.benchmark import chrono_function
+from references import regularization_values
+
 
 
 def predict(data: pandas.DataFrame) -> list:
@@ -13,10 +15,9 @@ def predict(data: pandas.DataFrame) -> list:
     y = data["spam"]
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
-    regularization: list = [1.0, 10.0, 100.0]
 
     results: list = []
-    for c in regularization:
+    for c in regularization_values:
         classifier = SVC(kernel='linear', C=c)
 
         result, time = chrono_function(classifier.fit, x_train, y_train)

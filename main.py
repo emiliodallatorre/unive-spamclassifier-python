@@ -1,6 +1,6 @@
 import pandas
 
-import classifiers.svm_radial as svm_polynomial
+import classifiers.svm_angular as svm_polynomial
 import data.dataset as dataset
 
 data: pandas.DataFrame = dataset.get_data()
