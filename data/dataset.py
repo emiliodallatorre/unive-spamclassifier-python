@@ -1,8 +1,11 @@
+import os
+from math import log
+
 import pandas
 
 
 def read_data() -> pandas.DataFrame:
-    data: pandas.DataFrame = pandas.read_csv("spambase.data")
+    data: pandas.DataFrame = pandas.read_csv("data/spambase.data")
     return data
 
 
@@ -70,10 +73,44 @@ def decorate_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
     return dataframe
 
 
-def get_data() -> pandas.DataFrame:
+def get_raw_data() -> pandas.DataFrame:
     data: pandas.DataFrame = read_data()
     data: pandas.DataFrame = decorate_dataframe(data)
     return data
 
 
-print(get_data())
+def calculate_weights(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    """
+    Calculates the weight of every word wit tf-idf.
+    :param dataframe:
+    :return:
+    """
+
+    weights: pandas.DataFrame = dataframe.copy()
+    weights = weights.drop(columns=[
+        "capital_run_length_average",
+        "capital_run_length_longest",
+        "capital_run_length_total",
+        "spam",
+    ])
+
+    # Calculate the tf-idf
+    total_docs: int = len(dataframe)
+    weights = weights.apply(lambda column: column * log(total_docs / (column > 0).sum()))
+
+    # Add the spam column
+    weights["spam"] = dataframe["spam"]
+
+    return weights
+
+
+def get_data() -> pandas.DataFrame:
+    if not os.path.exists("data/weights.csv"):
+        data: pandas.DataFrame = get_raw_data()
+        data: pandas.DataFrame = calculate_weights(data)
+
+        data.to_pickle("data/weights.pkl")
+    else:
+        data: pandas.DataFrame = pandas.read_pickle("data/weights.pkl")
+
+    return data
