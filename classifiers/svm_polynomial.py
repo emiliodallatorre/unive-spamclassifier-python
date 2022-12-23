@@ -7,6 +7,8 @@ from sklearn.svm import SVC
 from models.result_model import ResultModel
 from references import regularization_values
 from utils.benchmark import chrono_function
+from tqdm import tqdm
+
 
 
 def predict(data: pandas.DataFrame) -> list:
@@ -16,7 +18,7 @@ def predict(data: pandas.DataFrame) -> list:
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20)
 
     results: list = []
-    for c in regularization_values:
+    for c in tqdm(regularization_values):
         classifier = SVC(kernel='poly', C=c)
 
         result, time = chrono_function(classifier.fit, x_train, y_train)

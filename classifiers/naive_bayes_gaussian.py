@@ -54,6 +54,7 @@ class NaiveBayesGaussian(BaseEstimator, ClassifierMixin):
                     max_prob = probs
                     max_c = c
             y[i] = self.classes[max_c]
+
         return y
 
     def norm(self, document: list, target: int):

@@ -12,6 +12,7 @@ class ResultModel:
     score: np.ndarray
 
     def __init__(self, y_test: np.ndarray, y_predict: np.ndarray, title: str, fitness_time: float, score: np.ndarray):
+        self.confusion_matrix = None
         self.y_test = y_test
         self.y_predict = y_predict
         self.title = title
@@ -25,7 +26,16 @@ class ResultModel:
         return np.mean(self.score)
 
     def get_confusion_matrix(self) -> np.ndarray:
-        return confusion_matrix(self.y_test, self.y_predict)
+        if self.confusion_matrix is None:
+            self.confusion_matrix = confusion_matrix(self.y_test, self.y_predict)
+
+        return self.confusion_matrix
+
+    def get_false_positives(self) -> int:
+        return self.get_confusion_matrix()[0][1]
+
+    def get_false_negatives(self) -> int:
+        return self.get_confusion_matrix()[1][0]
 
     def plot_confusion_matrix(self):
         seaborn.heatmap(self.get_confusion_matrix(), annot=True, ax=plt.gca())
