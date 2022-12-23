@@ -1,10 +1,10 @@
 import pandas
 
 import data.dataset as dataset
-from classifiers import random_forest
+from classifiers import k_nearest_neighbors
 
 data: pandas.DataFrame = dataset.get_data()
-results: list = random_forest.predict(data)
+results: list = k_nearest_neighbors.predict(data)
 
 for result in results:
     print(result.get_accuracy())
