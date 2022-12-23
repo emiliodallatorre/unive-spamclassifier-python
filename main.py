@@ -34,4 +34,4 @@ for result in raw_results:
         "Score": result.score
     }, ignore_index=True)
 
-print(results)
+results.to_csv("results.csv")
