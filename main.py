@@ -1,3 +1,4 @@
+import numpy as np
 from pandas import DataFrame
 from tqdm import tqdm
 
@@ -21,9 +22,11 @@ raw_results: list[ResultModel] = []
 for classifier in tqdm(classifiers):
     raw_results.extend(classifier.predict(data))
 
-results: DataFrame = DataFrame()
-results.columns = ["Title", "Misclassified", "Accuracy", "False positives", "False negatives", "Time", "Score"]
+results: DataFrame = DataFrame(np.empty((0, 7)))
+results.columns = ["Title", "Misclassified", "Accuracy", "False positives", "False negatives", "Time", "Mean score"]
 for result in raw_results:
+    result.plot_confusion_matrix()
+
     results = results.append({
         "Title": result.title,
         "Misclassified": result.get_misclassified(),
@@ -31,7 +34,7 @@ for result in raw_results:
         "False positives": result.get_false_positives(),
         "False negatives": result.get_false_negatives(),
         "Time": result.fitness_time,
-        "Score": result.score
+        "Mean score": np.mean(result.score)
     }, ignore_index=True)
 
 results.to_csv("results.csv")

@@ -81,7 +81,7 @@ def get_raw_data() -> pandas.DataFrame:
 
 def calculate_weights(dataframe: pandas.DataFrame) -> pandas.DataFrame:
     """
-    Calculates the weight of every word wit tf-idf.
+    Calculates the weight of every word with tf-idf.
     :param dataframe:
     :return:
     """

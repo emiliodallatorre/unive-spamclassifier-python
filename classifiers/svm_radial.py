@@ -10,6 +10,7 @@ from references import regularization_values
 from utils.benchmark import chrono_function
 
 
+
 def predict(data: pandas.DataFrame) -> list:
     x = data.drop("spam", axis=1)
     y = data["spam"]

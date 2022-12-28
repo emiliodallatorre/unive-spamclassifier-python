@@ -25,6 +25,6 @@ def predict(data: pandas.DataFrame) -> list:
         y_predict = classifier.predict(x_test)
         score: np.ndarray = cross_val_score(classifier, x, y, cv=5)
 
-        results.append(ResultModel(y_test, y_predict, f"Random forest estimators={c}", time, score))
+        results.append(ResultModel(y_test, y_predict, f"KNN With neighbors={c}", time, score))
 
     return results
